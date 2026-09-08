@@ -168,12 +168,37 @@ class NotificationListener : NotificationListenerService() {
     }
 
     override fun onNotificationPosted(sbn: StatusBarNotification) {
+        processNotification(sbn)
+    }
+
+    /**
+     * Runs filters against notifications that are already present in the shade.
+     * Returns the number of notifications that matched a filter.
+     */
+    suspend fun applyFiltersToActiveNotifications(): Int = withContext(Dispatchers.Default) {
+        val active = try {
+            activeNotifications
+        } catch (e: Throwable) {
+            Logger.e("NotificationListener", "Failed to read active notifications", e)
+            return@withContext 0
+        }
+
+        Logger.i("NotificationListener", "Applying filters to ${active.size} active notifications")
+
+        active.count { processNotification(it) }
+    }
+
+    /**
+     * Handles a single notification: picks a matching filter and executes its action.
+     * Returns `true` if a filter matched.
+     */
+    private fun processNotification(sbn: StatusBarNotification): Boolean {
         if (sbn.notification.flags and FLAG_GROUP_SUMMARY != 0) {
             Logger.d(
                 "NotificationListener",
                 "Ignoring group summary notification $sbn",
             )
-            return
+            return false
         }
 
         Logger.d(
@@ -189,7 +214,7 @@ class NotificationListener : NotificationListenerService() {
                     && it.enabled
                     && it.schedule.includesNow()
                     && it.matchesTextOf(notification)
-        }.minByOrNull { it.priority } ?: return
+        }.minByOrNull { it.priority } ?: return false
 
         Logger.i("NotificationListener", "Matched $filter")
 
@@ -201,7 +226,7 @@ class NotificationListener : NotificationListenerService() {
                     intents.launchMain()
                 } catch (e: Exception) {
                     Logger.e("NotificationListener", "Failed to tap notification", e)
-                    return
+                    return false
                 }
 
             is Action.TAP_BUTTON ->
@@ -211,7 +236,7 @@ class NotificationListener : NotificationListenerService() {
                     }?.value?.send()
                 } catch (e: Exception) {
                     Logger.e("NotificationListener", "Failed to tap button", e)
-                    return
+                    return false
                 }
 
             is Action.BATCH -> {
@@ -231,7 +256,7 @@ class NotificationListener : NotificationListenerService() {
                 } else if (notifications.any { it.data == notification.data }) {
                     // TODO: The above condition does not use the updated `notification.matches(other, delay)` check.
                     Logger.d("NotificationListener", "Already batched")
-                    return
+                    return false
                 } else {
                     snoozeNotification(
                         sbn.key,
@@ -259,7 +284,7 @@ class NotificationListener : NotificationListenerService() {
                     Logger.d("NotificationListener", "Less than 1 second of delay")
                 } else if (notifications.any { notification.matches(it, delay) }) {
                     Logger.d("NotificationListener", "Already delayed")
-                    return
+                    return false
                 } else {
                     snoozeNotification(sbn.key, delay)
                 }
@@ -369,6 +394,8 @@ class NotificationListener : NotificationListenerService() {
             notifications = repository.notifications().first()
             Logger.d("NotificationListener", "Notifications updated: $notifications")
         }
+
+        return true
     }
 
     fun dismissNotification(key: String, isClearable: Boolean) {

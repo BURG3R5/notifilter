@@ -26,6 +26,8 @@
     <string name="history_disabled">history disabled</string>
     <string name="filter_disabled">filter disabled</string>
 
+    <string name="apply_filters_now">Apply filters to current notifications</string>
+    <string name="applied_to_none">No current notification matched your filters</string>
     <string name="adjust_priorities">Adjust priorities</string>
     <string name="move_up">Move up</string>
     <string name="move_down">Move down</string>

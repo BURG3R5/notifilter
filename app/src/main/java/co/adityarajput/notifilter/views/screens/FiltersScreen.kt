@@ -1,6 +1,7 @@
 package co.adityarajput.notifilter.views.screens
 
 import android.content.Context.MODE_PRIVATE
+import android.widget.Toast
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -43,6 +44,7 @@ import co.adityarajput.notifilter.views.components.ManageFilterDialog
 import co.adityarajput.notifilter.views.components.MissingPermissionsDialog
 import co.adityarajput.notifilter.views.components.Tile
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
 import kotlin.time.Duration.Companion.seconds
 
@@ -54,7 +56,9 @@ fun FiltersScreen(
     viewModel: FiltersViewModel = viewModel(factory = Provider.Factory),
 ) {
     val context = LocalContext.current
+    val scope = rememberCoroutineScope()
     val state = viewModel.state.collectAsState()
+    val appliedToNone = stringResource(R.string.applied_to_none)
     var hasPermissions by remember(state.value.filters) {
         mutableStateOf(context.isGranted(permissionsRequired(state.value.filters ?: listOf())))
     }
@@ -79,6 +83,36 @@ fun FiltersScreen(
     Scaffold(
         topBar = {
             AppBar(stringResource(R.string.app_name), false) {
+                // INFO: Runs filters against notifications already present in the shade
+                if (isListenerServiceInitialized)
+                    IconButton(
+                        {
+                            scope.launch {
+                                if (!NotificationListener.isServiceInitialized) return@launch
+
+                                val count = NotificationListener
+                                    .instance
+                                    .applyFiltersToActiveNotifications()
+
+                                Toast.makeText(
+                                    context,
+                                    if (count == 0) appliedToNone
+                                    else context.resources.getQuantityString(
+                                        R.plurals.applied_to_notifications,
+                                        count,
+                                        count,
+                                    ),
+                                    Toast.LENGTH_SHORT,
+                                ).show()
+                            }
+                        },
+                    ) {
+                        Icon(
+                            painterResource(R.drawable.filter_alt),
+                            stringResource(R.string.apply_filters_now),
+                            tint = MaterialTheme.colorScheme.onSurface,
+                        )
+                    }
                 IconButton(goToSettingsScreen) {
                     Icon(
                         painterResource(R.drawable.settings),
