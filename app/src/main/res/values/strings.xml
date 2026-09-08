@@ -160,6 +160,8 @@
 
     <!-- region NotificationsScreen -->
     <string name="history">History</string>
+    <string name="just_now">just now</string>
+    <string name="long_ago">1k+ days ago</string>
     <string name="no_notifications">No notifications blocked yet.</string>
     <string name="clear_history">Clear history</string>
     <string name="clear_history_confirmation">Delete all notifications?</string>
@@ -204,5 +206,15 @@
 
     <!-- region system -->
     <string name="foreground_notification_content">NotiFilter is running</string>
+    <string name="crash_dialog_title">App Crashed</string>
+    <string name="crash_dialog_text">NotiFilter has encountered an unexpected error and crashed. Please report this incident to the developers using the following form.</string>
+    <string name="crash_dialog_comment_prompt">Your comments:</string>
+    <string name="crash_dialog_positive_button">Send email</string>
+    <string name="alert_channel_name">NotiFilter Alert Service</string>
+    <string name="alert_channel_description">Required for ALERT Actions</string>
+    <string name="replace_channel_name">NotiFilter Replace Notifications for Filter #%1$d</string>
+    <string name="replace_channel_description">Required for REPLACE Actions</string>
+    <string name="foreground_channel_name">NotiFilter Foreground Service</string>
+    <string name="foreground_channel_description">Required for foreground service</string>
     <!-- endregion -->
 </resources>

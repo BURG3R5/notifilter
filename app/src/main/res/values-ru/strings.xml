@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- region FiltersScreen -->
+    <string name="listener_uninitialized"><![CDATA[Ожидание, пока система запустит службу чтения уведомлений. <a href=\"https://github.com/BURG3R5/NotiFilter/wiki/Troubleshooting#stuck-on-waiting-for-os-to-initialize-notification-listener-service\">Не запускается?</a>]]></string>
+    <string name="no_filters">Фильтров нет.\nНажмите +, чтобы добавить.</string>
+    <string name="on_weekdays">"по будням "</string>
+    <string name="on_weekends">"по выходным "</string>
+    <string name="on_days">"по %1$s "</string>
+    <string name="from_to">с %1$s до %2$s</string>
+    <string name="dismiss_short">убрать уведомление</string>
+    <string name="tap_notification_short">нажать уведомление</string>
+    <string name="tap_button_short">нажать «%1$s»</string>
+    <string name="batch_short">собирать раз в %1$s</string>
+    <string name="delay_short">откладывать уведомления</string>
+    <string name="delay_by_short">откладывать уведомления на %1$s</string>
+    <string name="debounce_short">подавлять повторы %1$s</string>
+    <string name="mute_short">заглушить уведомление</string>
+    <string name="alert_short">подать сигнал</string>
+    <string name="disturb_short">отключить «Не беспокоить» на %1$s</string>
+    <string name="dismiss_stale_short">убрать через %1$s</string>
+    <string name="replace_short">заменить на %1$s | %2$s</string>
+    <string name="any_app">Любое приложение</string>
+    <string name="history_disabled">история отключена</string>
+    <string name="filter_disabled">фильтр отключён</string>
+
+    <string name="adjust_priorities">Изменить приоритеты</string>
+    <string name="move_up">Выше</string>
+    <string name="move_down">Ниже</string>
+    <string name="configure_notifications">Настроить уведомления</string>
+    <string name="toggle_history">%1$s историю</string>
+    <string name="disable_history_confirmation">Отключить историю и обнулить счётчик срабатываний этого фильтра? Убранные уведомления сохраняться не будут.</string>
+    <string name="enable_history_confirmation">Включить историю для этого фильтра?</string>
+    <string name="toggle_filter">%1$s фильтр</string>
+    <string name="toggle_filter_confirmation">%1$s этот фильтр?</string>
+    <string name="delete_filter">Удалить фильтр</string>
+    <string name="delete_confirmation">Удаление необратимо: фильтр и его статистика будут потеряны.%1$s</string>
+    <string name="disable_suggestion">" Возможно, достаточно его отключить."</string>
+    <string name="enable">Включить</string>
+    <string name="disable">Отключить</string>
+    <string name="delete">Удалить</string>
+
+    <string name="missing_permissions">Не хватает разрешений</string>
+    <string name="explain_missing_permissions">Вашим фильтрам нужны следующие разрешения:</string>
+    <string name="explain_accessibility_service_permission">Нажимать уведомления</string>
+    <string name="explain_post_notifications_permission">Показывать уведомления</string>
+    <string name="explain_notification_policy_permission">Управлять режимом «Не беспокоить»</string>
+    <string name="explain_exact_alarm_permission">Убирать уведомление точно по времени</string>
+    <string name="hide_permanently">Больше не показывать</string>
+    <string name="done">Готово</string>
+    <!-- endregion -->
+
+    <!-- region SettingsScreen -->
+    <string name="settings">Настройки</string>
+    <string name="settings_section_1">Необязательные улучшения</string>
+    <string name="explain_disabling_battery_optimization">Освобождает приложение от ограничений системы</string>
+    <string name="run_in_foreground">Работать на переднем плане</string>
+    <string name="explain_running_in_foreground">Переводит основную службу в режим переднего плана</string>
+    <string name="settings_section_2">Перенос данных</string>
+    <string name="import_filters">Импорт фильтров</string>
+    <string name="import_warning">Заменяет текущие фильтры</string>
+    <string name="import_success">Фильтры импортированы</string>
+    <string name="export_filters">Экспорт фильтров</string>
+    <string name="export_explanation">Создаёт файл JSON</string>
+    <string name="export_success">Фильтры экспортированы</string>
+    <string name="copy_logs">Скопировать журнал</string>
+    <string name="view_licenses">Лицензии</string>
+    <string name="copy_success">Журнал скопирован в буфер обмена</string>
+    <string name="about_app">О приложении</string>
+    <!-- endregion -->
+
+    <!-- region UpsertFilterScreen -->
+    <string name="add_filter">Добавить фильтр</string>
+    <string name="edit_filter">Изменить фильтр</string>
+    <string name="no_active_notifications">Ожидание активных уведомлений…</string>
+    <string name="zapper_page_title">Выберите уведомление</string>
+    <string name="package_page_title">Выберите приложение</string>
+    <string name="advanced_options">Дополнительные параметры</string>
+    <string name="target_all_apps">Все приложения?</string>
+    <string name="all_apps_warning">Выбор всех приложений нужен редко и может привести к неожиданным последствиям.</string>
+    <string name="show_system_packages">Показать системные пакеты?</string>
+    <string name="system_packages_warning">Уведомления системных пакетов могут содержать важные сведения.</string>
+    <string name="package_name">Название пакета</string>
+    <string name="package_name_placeholder">Поиск среди установленных приложений</string>
+    <string name="pattern_page_title">Настройте способ поиска совпадений</string>
+    <string name="search_text">Искать в уведомлении:</string>
+    <string name="title">заголовок</string>
+    <string name="content">текст</string>
+    <string name="title_or_content">заголовок или текст</string>
+    <string name="title_and_content">заголовок и текст</string>
+    <string name="use_expression">Вычислять выражение</string>
+    <string name="notification_pattern">Шаблон уведомления</string>
+    <string name="title_pattern">Шаблон заголовка</string>
+    <string name="content_pattern">Шаблон текста</string>
+    <string name="expression">Выражение</string>
+    <string name="pattern_placeholder">Введите регулярное выражение</string>
+    <string name="expression_placeholder">Введите корректное выражение</string>
+    <string name="pattern_supporting">"Введите шаблон, подходящий к «%1$s». "</string>
+    <string name="or">или</string>
+    <string name="generate">Составить?</string>
+    <string name="pattern_advice"><![CDATA[Совет: включайте ключевые слова и опускайте всё лишнее. Примеры — <a href=\"https://github.com/BURG3R5/NotiFilter/wiki/Examples\">здесь↗</a>.]]></string>
+    <string name="expression_advice"><![CDATA[О выражениях можно прочитать <a href=\"https://github.com/BURG3R5/NotiFilter/wiki/Expressions\">здесь↗</a>.]]></string>
+    <string name="invalid_regex">В регулярном выражении есть ошибки</string>
+    <string name="invalid_expression">В выражении есть ошибки</string>
+    <string name="pattern_doesnt_match_title">Регулярное выражение не подходит к заголовку выбранного уведомления</string>
+    <string name="pattern_doesnt_match_content">Регулярное выражение не подходит к тексту выбранного уведомления</string>
+    <string name="expression_doesnt_match_notification">Выражение не подходит к данным выбранного уведомления</string>
+    <string name="action_page_title">Выберите действие</string>
+    <string name="dismiss_long">Убрать уведомление</string>
+    <string name="tap_notification_long">Нажать уведомление</string>
+    <string name="accessibility_service_description">Чтобы нажимать уведомления, NotiFilter нужна служба специальных возможностей.</string>
+    <string name="enable_service">Включить службу</string>
+    <string name="tap_button_long">Нажать кнопку</string>
+    <string name="button_pattern">Шаблон кнопки</string>
+    <string name="batch_long">Собирать уведомления вместе</string>
+    <string name="batch_frequency">Раз в %1$s ч.</string>
+    <string name="delay_long">Откладывать уведомления</string>
+    <string name="delay_while_active">Пока фильтр действует</string>
+    <string name="delay_for">На заданное время</string>
+    <string name="delay_length">Отложить на %1$s мин.</string>
+    <string name="debounce_long">Подавлять повторы</string>
+    <string name="cooldown_length">Пауза %1$s мин.</string>
+    <string name="explain_debounce">Уведомления, приходящие одно за другим, будут заглушены.</string>
+    <string name="cant_debounce_any">Подавление повторов нельзя применить сразу ко всем приложениям</string>
+    <string name="mute_long">Заглушать уведомления</string>
+    <string name="alert_long">Подать сигнал</string>
+    <string name="alert_notifications_description">Для сигналов NotiFilter показывает короткие уведомления.</string>
+    <string name="disturb_long">Отключить режим «Не беспокоить»</string>
+    <string name="pause_length">Включить через %1$s мин.</string>
+    <string name="notification_policy_permission_description">Чтобы менять режим «Не беспокоить», NotiFilter нужен доступ к политике уведомлений.</string>
+    <string name="dismiss_stale_long">Убирать устаревшие уведомления</string>
+    <string name="retention_length">Убрать через %1$s мин.</string>
+    <string name="exact_alarm_permission_description">Чтобы убирать уведомления точно по времени, NotiFilter нужно исключение из оптимизации батареи.</string>
+    <string name="replace_long">Заменить своим уведомлением</string>
+    <string name="title_template">Шаблон заголовка</string>
+    <string name="content_template">Шаблон текста</string>
+    <string name="notification_template_advice"><![CDATA[Подставляйте ${app}, ${title} и ${content}, чтобы взять данные исходного уведомления. Другие шаблоны — <a href=\"https://github.com/BURG3R5/NotiFilter/wiki/Notification-Data\">здесь↗</a>.]]></string>
+    <string name="replace_notifications_description">NotiFilter убирает исходное уведомление и показывает новое с вашими значениями.</string>
+    <string name="display_options">Где показывать перехваченные уведомления</string>
+    <string name="describe_history_screen">На экране «История»</string>
+    <string name="describe_widget">В виджете журнала на рабочем столе</string>
+    <string name="prompt_log_widget">Добавить виджет на рабочий стол</string>
+    <string name="make_tappable">Разрешить нажатие уведомлений</string>
+    <string name="schedule_page_title">Настройте расписание</string>
+    <string name="run_from">"Работать с "</string>
+    <string name="to">" до "</string>
+    <string name="on">" по"</string>
+    <string name="delay_action_reminder">Уведомления, полученные в это время, будут отложены до момента, когда фильтр перестанет действовать.</string>
+    <string name="empty_active_days">Дни не выбраны</string>
+    <string name="invalid_time_range">Неверный интервал времени</string>
+    <string name="cancel">Отмена</string>
+    <string name="back">Назад</string>
+    <string name="skip">Пропустить</string>
+    <string name="next">Далее</string>
+    <string name="add">Добавить</string>
+    <string name="save">Сохранить</string>
+    <!-- endregion -->
+
+    <!-- region NotificationsScreen -->
+    <string name="history">История</string>
+    <string name="just_now">только что</string>
+    <string name="long_ago">больше 1000 дней назад</string>
+    <string name="no_notifications">Пока нет перехваченных уведомлений.</string>
+    <string name="clear_history">Очистить историю</string>
+    <string name="clear_history_confirmation">Удалить все уведомления?</string>
+    <!-- endregion -->
+
+    <!-- region OnboardingScreen -->
+    <string name="onboarding_info_1">NotiFilter запускает нетребовательную фоновую службу, которая слушает все уведомления устройства и тихо обрабатывает их по вашим фильтрам.\n\nДанные никуда не передаются: у NotiFilter нет доступа к интернету.</string>
+    <string name="grant_permission">Выдать разрешение</string>
+    <string name="onboarding_info_2">На некоторых устройствах из-за оптимизации батареи уведомления убираются с задержкой, поэтому первое появление вы всё же можете заметить.\n\nУ отдельных производителей оптимизация ещё жёстче, и позже может понадобиться включить «Работать на переднем плане» в настройках приложения.</string>
+    <string name="disable_optimization">Отключить оптимизацию</string>
+    <!-- endregion -->
+
+    <!-- region AboutScreen -->
+    <string name="about">О приложении</string>
+    <string name="app_description">" слушает все уведомления устройства и тихо обрабатывает те, что подходят под ваши фильтры."</string>
+    <string name="app_links"><![CDATA[Лицензия <a href=\"https://github.com/BURG3R5/NotiFilter/blob/master/LICENSE\">GPLv3</a><br/>Исходный код — на <a href=\"https://github.com/BURG3R5/NotiFilter\">GitHub</a><br/>Подробности — в <a href=\"https://github.com/BURG3R5/NotiFilter/wiki\">вики проекта</a>]]></string>
+    <string name="app_permissions"><![CDATA[Разрешения<small><ul><li>BIND_NOTIFICATION_LISTENER_SERVICE: слушать уведомления и реагировать на них</li><li>QUERY_ALL_PACKAGES: искать среди установленных приложений при создании фильтра</li><li>BIND_ACCESSIBILITY_SERVICE: выполнять действия TAP_NOTIFICATION, если они есть</li><li>POST_NOTIFICATIONS: выполнять действия ALERT, если они есть</li><li>ACCESS_NOTIFICATION_POLICY: выполнять действия DISTURB, если они есть</li><li>REQUEST_IGNORE_BATTERY_OPTIMIZATIONS: выполнять действия DISMISS_STALE, если они есть</li><li>FOREGROUND_SERVICE_SPECIAL_USE: при желании переводить основную службу на передний план, обходя жёсткие оптимизации системы</li></ul>Другие разрешения могут использоваться библиотеками для своих задач, например для обновления виджетов.</small>]]></string>
+    <string name="dev_credit"><![CDATA[Разработчик — <a href=\"https://github.com/BURG3R5/\">BURG3R5</a>]]></string>
+    <!-- endregion -->
+
+    <!-- region LicensesScreen -->
+    <string name="licenses">Лицензии</string>
+    <!-- endregion -->
+
+    <!-- region Widget -->
+    <string name="log_widget_title">Журнал NotiFilter</string>
+    <string name="log_widget_description">Просмотр перехваченных уведомлений</string>
+    <string name="no_notifications_logged">Пока ничего не записано</string>
+    <string name="panel_widget_title">Переключатели NotiFilter</string>
+    <string name="panel_widget_description">Включение и отключение фильтров</string>
+    <string name="no_filters_short">Фильтров пока нет</string>
+    <!-- endregion -->
+
+    <!-- region alttext -->
+    <string name="alttext_app_logo">Логотип приложения</string>
+    <string name="alttext_back_button">Кнопка «Назад»</string>
+    <string name="alttext_add">Больше</string>
+    <string name="alttext_subtract">Меньше</string>
+    <string name="alttext_logs">Журнал</string>
+    <string name="alttext_info">Сведения</string>
+    <!-- endregion -->
+
+    <!-- region system -->
+    <string name="foreground_notification_content">NotiFilter работает</string>
+    <string name="crash_dialog_title">Сбой приложения</string>
+    <string name="crash_dialog_text">NotiFilter столкнулся с непредвиденной ошибкой и завершился. Пожалуйста, сообщите об этом разработчику с помощью формы ниже.</string>
+    <string name="crash_dialog_comment_prompt">Ваши пояснения:</string>
+    <string name="crash_dialog_positive_button">Отправить письмо</string>
+    <string name="alert_channel_name">Сигналы NotiFilter</string>
+    <string name="alert_channel_description">Нужен для действий ALERT</string>
+    <string name="replace_channel_name">Замена уведомлений NotiFilter для фильтра №%1$d</string>
+    <string name="replace_channel_description">Нужен для действий REPLACE</string>
+    <string name="foreground_channel_name">Служба NotiFilter на переднем плане</string>
+    <string name="foreground_channel_description">Нужен для работы службы на переднем плане</string>
+    <!-- endregion -->
+</resources>

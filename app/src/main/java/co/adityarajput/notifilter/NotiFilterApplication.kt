@@ -34,11 +34,10 @@ class NotiFilterApplication : Application() {
             }
 
             dialog {
-                title = "App Crashed"
-                text =
-                    "NotiFilter has encountered an unexpected error and crashed. Please report this incident to the developers using the following form."
-                commentPrompt = "Your comments:"
-                positiveButtonText = "Send email"
+                title = getString(R.string.crash_dialog_title)
+                text = getString(R.string.crash_dialog_text)
+                commentPrompt = getString(R.string.crash_dialog_comment_prompt)
+                positiveButtonText = getString(R.string.crash_dialog_positive_button)
             }
         }
 

@@ -12,4 +12,20 @@
         <item quantity="one">%1$d hit</item>
         <item quantity="other">%1$d hits</item>
     </plurals>
+    <plurals name="day_ago">
+        <item quantity="one">%1$d day ago</item>
+        <item quantity="other">%1$d days ago</item>
+    </plurals>
+    <plurals name="hour_ago">
+        <item quantity="one">%1$d hr ago</item>
+        <item quantity="other">%1$d hrs ago</item>
+    </plurals>
+    <plurals name="minute_ago">
+        <item quantity="one">%1$d min ago</item>
+        <item quantity="other">%1$d mins ago</item>
+    </plurals>
+    <plurals name="second_ago">
+        <item quantity="one">%1$d sec ago</item>
+        <item quantity="other">%1$d secs ago</item>
+    </plurals>
 </resources>

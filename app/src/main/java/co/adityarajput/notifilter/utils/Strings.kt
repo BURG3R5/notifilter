@@ -2,6 +2,7 @@ package co.adityarajput.notifilter.utils
 
 import android.os.Bundle
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import co.adityarajput.notifilter.R
 import java.time.Instant
@@ -9,6 +10,7 @@ import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 
+@Composable
 fun Long.toDelta(): String {
     val now = System.currentTimeMillis()
     val delta = now - this
@@ -19,12 +21,12 @@ fun Long.toDelta(): String {
     val days = hours / 24
 
     return when {
-        days > 1000 -> "1k+ days ago"
-        days > 0 -> "$days day${if (days > 1) "s" else ""} ago"
-        hours > 0 -> "$hours hr${if (hours > 1) "s" else ""} ago"
-        minutes > 0 -> "$minutes min${if (minutes > 1) "s" else ""} ago"
-        seconds > 0 -> "$seconds sec${if (seconds > 1) "s" else ""} ago"
-        else -> "just now"
+        days > 1000 -> stringResource(R.string.long_ago)
+        days > 0 -> pluralStringResource(R.plurals.day_ago, days.toInt(), days)
+        hours > 0 -> pluralStringResource(R.plurals.hour_ago, hours.toInt(), hours)
+        minutes > 0 -> pluralStringResource(R.plurals.minute_ago, minutes.toInt(), minutes)
+        seconds > 0 -> pluralStringResource(R.plurals.second_ago, seconds.toInt(), seconds)
+        else -> stringResource(R.string.just_now)
     }
 }
 

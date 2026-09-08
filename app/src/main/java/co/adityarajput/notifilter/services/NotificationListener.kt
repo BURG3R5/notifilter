@@ -49,10 +49,10 @@ class NotificationListener : NotificationListenerService() {
                 instance.notificationManager.createNotificationChannel(
                     NotificationChannel(
                         Constants.ALERT_NOTIFICATION_CHANNEL_ID,
-                        "NotiFilter Alert Service",
+                        instance.getString(R.string.alert_channel_name),
                         NotificationManager.IMPORTANCE_HIGH,
                     ).apply {
-                        description = "Required for ALERT Actions"
+                        description = instance.getString(R.string.alert_channel_description)
                     },
                 )
             }
@@ -64,10 +64,10 @@ class NotificationListener : NotificationListenerService() {
                 instance.notificationManager.createNotificationChannel(
                     NotificationChannel(
                         channelId,
-                        "NotiFilter Replace Notifications for Filter #$filterId",
+                        instance.getString(R.string.replace_channel_name, filterId),
                         NotificationManager.IMPORTANCE_HIGH,
                     ).apply {
-                        description = "Required for REPLACE Actions"
+                        description = instance.getString(R.string.replace_channel_description)
                     },
                 )
             }
@@ -140,10 +140,10 @@ class NotificationListener : NotificationListenerService() {
         notificationManager.createNotificationChannel(
             NotificationChannel(
                 Constants.FOREGROUND_NOTIFICATION_CHANNEL_ID,
-                "NotiFilter Foreground Service",
+                getString(R.string.foreground_channel_name),
                 NotificationManager.IMPORTANCE_LOW,
             ).apply {
-                description = "Required for foreground service"
+                description = getString(R.string.foreground_channel_description)
                 enableLights(false)
                 enableVibration(false)
                 setShowBadge(false)
