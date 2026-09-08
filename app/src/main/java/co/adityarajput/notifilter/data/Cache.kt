@@ -35,11 +35,11 @@ object Cache {
     fun update(packageManager: PackageManager) {
         Logger.d("Cache", "Updating apps")
 
-        _allPackages = packageManager.getInstalledApplications(0)
+        val allPackages = packageManager.getInstalledApplications(0)
             .map { App(it.loadLabel(packageManager).toString(), it.packageName) }
             .sortedBy { it.name }
 
-        _visibleApps = packageManager.queryIntentActivities(
+        val visibleApps = packageManager.queryIntentActivities(
             Intent(Intent.ACTION_MAIN, null).addCategory(Intent.CATEGORY_LAUNCHER),
             0,
         ).map {
@@ -49,7 +49,14 @@ object Cache {
             )
         }.sortedBy { it.name }
 
-        _cachedAt = System.currentTimeMillis()
+        _allPackages = allPackages
+        _visibleApps = visibleApps
+
+        // INFO: An empty result means the OS withheld the app list, e.g. because the user has
+        // not answered the permission prompt yet. Caching that would keep the filter form
+        // spinning for the whole timeout even after access is granted, so retry next time.
+        _cachedAt = if (allPackages.isEmpty()) 0L else System.currentTimeMillis()
+
         Logger.d("Cache", "Updated cache")
     }
 }
