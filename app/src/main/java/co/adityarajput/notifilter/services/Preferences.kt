@@ -31,4 +31,9 @@ object Preferences {
     var widgetPreviewSetAt
         get() = state.getLong(WIDGET_PREVIEW_SET_AT, 0)
         set(value) = state.edit { putLong(WIDGET_PREVIEW_SET_AT, value) }
+
+    private const val BRIGHTNESS = "brightness"
+    var brightness
+        get() = settings.getInt(BRIGHTNESS, 1)
+        set(value) = settings.edit { putInt(BRIGHTNESS, value) }
 }

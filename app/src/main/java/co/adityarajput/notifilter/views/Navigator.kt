@@ -9,11 +9,12 @@ import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import co.adityarajput.notifilter.utils.Permission
 import co.adityarajput.notifilter.utils.isGranted
+import co.adityarajput.notifilter.viewmodels.AppearanceViewModel
 import co.adityarajput.notifilter.views.screens.*
 import kotlinx.serialization.Serializable
 
 @Composable
-fun Navigator(controller: NavHostController) {
+fun Navigator(controller: NavHostController, appearanceViewModel: AppearanceViewModel) {
     val hasPermission = remember { controller.context.isGranted(Permission.NOTIFICATION_LISTENER) }
 
     NavHost(
@@ -50,6 +51,7 @@ fun Navigator(controller: NavHostController) {
                 { controller.navigate(Routes.LICENSES.name) },
                 { controller.navigate(Routes.ABOUT.name) },
                 controller::popBackStack,
+                appearanceViewModel,
             )
         }
         composable(Routes.LICENSES.name) { LicensesScreen(controller::popBackStack) }

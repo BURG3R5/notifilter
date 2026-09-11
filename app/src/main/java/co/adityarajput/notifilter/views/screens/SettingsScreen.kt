@@ -22,7 +22,6 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import co.adityarajput.notifilter.BuildConfig
 import co.adityarajput.notifilter.R
 import co.adityarajput.notifilter.data.AppContainer
@@ -32,7 +31,8 @@ import co.adityarajput.notifilter.utils.Logger
 import co.adityarajput.notifilter.utils.Permission
 import co.adityarajput.notifilter.utils.isGranted
 import co.adityarajput.notifilter.utils.request
-import co.adityarajput.notifilter.views.Theme
+import co.adityarajput.notifilter.viewmodels.AppearanceViewModel
+import co.adityarajput.notifilter.views.Brightness
 import co.adityarajput.notifilter.views.components.AppBar
 import kotlinx.coroutines.launch
 import java.time.Instant
@@ -44,6 +44,7 @@ fun SettingsScreen(
     goToLicensesScreen: () -> Unit = {},
     goToAboutScreen: () -> Unit = {},
     goBack: () -> Unit = {},
+    viewModel: AppearanceViewModel,
 ) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
@@ -157,6 +158,55 @@ fun SettingsScreen(
                         .fillMaxWidth()
                         .padding(dimensionResource(R.dimen.padding_small)),
                 ) {
+                    Text(
+                        stringResource(R.string.settings_section_2),
+                        Modifier.padding(
+                            dimensionResource(R.dimen.padding_large),
+                            dimensionResource(R.dimen.padding_medium),
+                        ),
+                        fontWeight = FontWeight.Medium,
+                    )
+                    Row(
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(
+                                start = dimensionResource(R.dimen.padding_large),
+                                end = dimensionResource(R.dimen.padding_large),
+                                bottom = dimensionResource(R.dimen.padding_medium),
+                            ),
+                        Arrangement.SpaceBetween,
+                        Alignment.CenterVertically,
+                    ) {
+                        Text(
+                            stringResource(R.string.app_theme),
+                            Modifier.padding(end = dimensionResource(R.dimen.padding_small)),
+                            style = MaterialTheme.typography.titleSmall,
+                        )
+                        SingleChoiceSegmentedButtonRow {
+                            Brightness.entries.forEachIndexed { i, b ->
+                                SegmentedButton(
+                                    i == viewModel.brightness.ordinal,
+                                    {
+                                        Preferences.brightness = i
+                                        viewModel.brightness = Brightness.entries[i]
+                                    },
+                                    SegmentedButtonDefaults.itemShape(i, 3),
+                                    label = {
+                                        Icon(
+                                            painterResource(b.icon),
+                                            stringResource(b.description),
+                                        )
+                                    },
+                                )
+                            }
+                        }
+                    }
+                }
+                Card(
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(dimensionResource(R.dimen.padding_small)),
+                ) {
                     val importSuccess = stringResource(R.string.import_success)
                     val exportSuccess = stringResource(R.string.export_success)
                     val appNameAndVersion =
@@ -193,7 +243,7 @@ fun SettingsScreen(
                     }
 
                     Text(
-                        stringResource(R.string.settings_section_2),
+                        stringResource(R.string.settings_section_3),
                         Modifier.padding(
                             dimensionResource(R.dimen.padding_large),
                             dimensionResource(R.dimen.padding_medium),
@@ -322,7 +372,3 @@ fun SettingsScreen(
         }
     }
 }
-
-@Preview
-@Composable
-fun SettingsScreenPreview() = Theme { SettingsScreen() }
