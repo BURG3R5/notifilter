@@ -10,6 +10,7 @@ import kotlinx.serialization.json.Json
 
 object Provider {
     val Factory = viewModelFactory {
+        initializer { AppearanceViewModel() }
         initializer { FiltersViewModel(notifilterApplication().container.repository) }
         initializer {
             NotificationsViewModel(

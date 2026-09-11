@@ -104,7 +104,6 @@ class NotificationListener : NotificationListenerService() {
     private val serviceScope = CoroutineScope(Dispatchers.Default + serviceJob)
 
     private val repository by lazy { AppContainer(this).repository }
-    private val sharedPreferences by lazy { getSharedPreferences(Constants.SETTINGS, MODE_PRIVATE) }
 
     private val audioManager by lazy { getSystemService(AUDIO_SERVICE) as AudioManager }
     private val notificationManager by lazy { getSystemService(NOTIFICATION_SERVICE) as NotificationManager }
@@ -124,7 +123,7 @@ class NotificationListener : NotificationListenerService() {
         instance = this
         Logger.i("NotificationListener", "Service created")
 
-        if (sharedPreferences.getBoolean(Constants.RUN_IN_FOREGROUND, false))
+        if (Preferences.runInForeground)
             startForeground()
 
         serviceScope.launch {
@@ -451,7 +450,7 @@ class NotificationListener : NotificationListenerService() {
 
     override fun onDestroy() {
         super.onDestroy()
-        if (sharedPreferences.getBoolean(Constants.RUN_IN_FOREGROUND, false))
+        if (Preferences.runInForeground)
             stopForeground(STOP_FOREGROUND_REMOVE)
         serviceJob.cancel()
     }

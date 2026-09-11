@@ -27,8 +27,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
 import co.adityarajput.notifilter.data.Cache
+import co.adityarajput.notifilter.viewmodels.AppearanceViewModel
+import co.adityarajput.notifilter.viewmodels.Provider
 import co.adityarajput.notifilter.views.Navigator
 import co.adityarajput.notifilter.views.Theme
 import kotlinx.coroutines.Dispatchers
@@ -47,11 +50,13 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
 
         setContent {
-            Theme {
+            val viewModel: AppearanceViewModel = viewModel(factory = Provider.Factory)
+
+            Theme(viewModel.brightness) {
                 Surface(
                     Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background,
-                ) { Navigator(rememberNavController()) }
+                ) { Navigator(rememberNavController(), viewModel) }
             }
         }
     }

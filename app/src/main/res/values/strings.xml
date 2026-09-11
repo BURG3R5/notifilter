@@ -59,7 +59,12 @@
     <string name="explain_disabling_battery_optimization">Exempts the app from being restricted by the OS</string>
     <string name="run_in_foreground">Run in foreground</string>
     <string name="explain_running_in_foreground">Promotes the core listener service to the foreground</string>
-    <string name="settings_section_2">Data Transfer</string>
+    <string name="settings_section_2">App Appearance</string>
+    <string name="app_theme">App Theme</string>
+    <string name="light">Light</string>
+    <string name="system">System</string>
+    <string name="dark">Dark</string>
+    <string name="settings_section_3">Data Transfer</string>
     <string name="import_filters">Import filters</string>
     <string name="import_warning">Overrides your current filters</string>
     <string name="import_success">Filters imported successfully</string>

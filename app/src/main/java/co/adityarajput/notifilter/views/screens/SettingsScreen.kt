@@ -1,7 +1,6 @@
 package co.adityarajput.notifilter.views.screens
 
 import android.content.ClipData
-import android.content.Context.MODE_PRIVATE
 import android.os.Build
 import android.os.Handler
 import android.os.Looper
@@ -23,19 +22,17 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.core.content.edit
 import co.adityarajput.notifilter.BuildConfig
-import co.adityarajput.notifilter.Constants.RUN_IN_FOREGROUND
-import co.adityarajput.notifilter.Constants.SETTINGS
 import co.adityarajput.notifilter.R
 import co.adityarajput.notifilter.data.AppContainer
 import co.adityarajput.notifilter.services.NotificationListener
+import co.adityarajput.notifilter.services.Preferences
 import co.adityarajput.notifilter.utils.Logger
 import co.adityarajput.notifilter.utils.Permission
 import co.adityarajput.notifilter.utils.isGranted
 import co.adityarajput.notifilter.utils.request
-import co.adityarajput.notifilter.views.Theme
+import co.adityarajput.notifilter.viewmodels.AppearanceViewModel
+import co.adityarajput.notifilter.views.Brightness
 import co.adityarajput.notifilter.views.components.AppBar
 import kotlinx.coroutines.launch
 import java.time.Instant
@@ -47,19 +44,19 @@ fun SettingsScreen(
     goToLicensesScreen: () -> Unit = {},
     goToAboutScreen: () -> Unit = {},
     goBack: () -> Unit = {},
+    viewModel: AppearanceViewModel,
 ) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     val clipboard = LocalClipboard.current
     val appContainer = remember { AppContainer(context) }
     val handler = remember { Handler(Looper.getMainLooper()) }
-    val sharedPreferences = remember { context.getSharedPreferences(SETTINGS, MODE_PRIVATE) }
 
     var isInvincible by remember {
         mutableStateOf(context.isGranted(Permission.UNRESTRICTED_BACKGROUND_USAGE))
     }
     var isRunningInForeground by remember {
-        mutableStateOf(sharedPreferences.getBoolean(RUN_IN_FOREGROUND, false))
+        mutableStateOf(Preferences.runInForeground)
     }
 
     val watcher = object : Runnable {
@@ -149,11 +146,60 @@ fun SettingsScreen(
                                 if (!result) {
                                     Toast.makeText(context, toastText, Toast.LENGTH_SHORT).show()
                                 } else {
+                                    Preferences.runInForeground = it
                                     isRunningInForeground = it
-                                    sharedPreferences.edit { putBoolean(RUN_IN_FOREGROUND, it) }
                                 }
                             },
                         )
+                    }
+                }
+                Card(
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(dimensionResource(R.dimen.padding_small)),
+                ) {
+                    Text(
+                        stringResource(R.string.settings_section_2),
+                        Modifier.padding(
+                            dimensionResource(R.dimen.padding_large),
+                            dimensionResource(R.dimen.padding_medium),
+                        ),
+                        fontWeight = FontWeight.Medium,
+                    )
+                    Row(
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(
+                                start = dimensionResource(R.dimen.padding_large),
+                                end = dimensionResource(R.dimen.padding_large),
+                                bottom = dimensionResource(R.dimen.padding_medium),
+                            ),
+                        Arrangement.SpaceBetween,
+                        Alignment.CenterVertically,
+                    ) {
+                        Text(
+                            stringResource(R.string.app_theme),
+                            Modifier.padding(end = dimensionResource(R.dimen.padding_small)),
+                            style = MaterialTheme.typography.titleSmall,
+                        )
+                        SingleChoiceSegmentedButtonRow {
+                            Brightness.entries.forEachIndexed { i, b ->
+                                SegmentedButton(
+                                    i == viewModel.brightness.ordinal,
+                                    {
+                                        Preferences.brightness = i
+                                        viewModel.brightness = Brightness.entries[i]
+                                    },
+                                    SegmentedButtonDefaults.itemShape(i, 3),
+                                    label = {
+                                        Icon(
+                                            painterResource(b.icon),
+                                            stringResource(b.description),
+                                        )
+                                    },
+                                )
+                            }
+                        }
                     }
                 }
                 Card(
@@ -197,7 +243,7 @@ fun SettingsScreen(
                     }
 
                     Text(
-                        stringResource(R.string.settings_section_2),
+                        stringResource(R.string.settings_section_3),
                         Modifier.padding(
                             dimensionResource(R.dimen.padding_large),
                             dimensionResource(R.dimen.padding_medium),
@@ -326,7 +372,3 @@ fun SettingsScreen(
         }
     }
 }
-
-@Preview
-@Composable
-fun SettingsScreenPreview() = Theme { SettingsScreen() }
