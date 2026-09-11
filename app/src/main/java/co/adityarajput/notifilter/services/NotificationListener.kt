@@ -164,6 +164,7 @@ class NotificationListener : NotificationListenerService() {
     override fun onListenerConnected() {
         super.onListenerConnected()
         Logger.i("NotificationListener", "Listener connected")
+        serviceScope.launch { TextToSpeech.initialize(this@NotificationListener) }
         requestListenerHints(0)
     }
 
@@ -353,6 +354,16 @@ class NotificationListener : NotificationListenerService() {
                         .setSmallIcon(R.drawable.ic_launcher_foreground)
                         .setContentIntent(sbn.notification.contentIntent)
                         .build(),
+                )
+            }
+
+            is Action.READ -> {
+                TextToSpeech.speak(
+                    filter.action.speechTemplate.replaceWithNotificationData(
+                        notification,
+                        Cache.getAllPackages(packageManager),
+                    ),
+                    sbn.id,
                 )
             }
         }

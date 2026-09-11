@@ -3,6 +3,7 @@ package co.adityarajput.notifilter.views.screens
 import android.app.TimePickerDialog
 import android.os.Handler
 import android.os.Looper
+import android.widget.Toast
 import androidx.compose.animation.*
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -495,6 +496,7 @@ private val permissions = listOf(
 @Composable
 private fun ColumnScope.ActionPage(viewModel: UpsertFilterViewModel) {
     val context = LocalContext.current
+    val coroutineScope = rememberCoroutineScope()
     val handler = remember { Handler(Looper.getMainLooper()) }
     var hasPermissions by remember { mutableStateOf(context.isGranted(permissions)) }
     val hasPinnedLogWidget by produceState(initialValue = false) {
@@ -856,6 +858,77 @@ private fun ColumnScope.ActionPage(viewModel: UpsertFilterViewModel) {
                             fontWeight = FontWeight.Normal,
                         )
                     }
+                }
+            }
+        }
+        AnimatedVisibility(it is Action.READ && viewModel.state.values.action is Action.READ) {
+            val action = (viewModel.state.values.action as? Action.READ)
+                ?: Action.READ($$"${title}: ${content}")
+            Column(
+                Modifier.fillMaxWidth(),
+                Arrangement.spacedBy(dimensionResource(R.dimen.padding_medium)),
+            ) {
+                OutlinedTextField(
+                    action.speechTemplate,
+                    { value ->
+                        viewModel.updateForm(
+                            viewModel.state.page,
+                            viewModel.state.values.copy(action = action.copy(speechTemplate = value)),
+                        )
+                    },
+                    Modifier.fillMaxWidth(),
+                    label = { Text(stringResource(R.string.speech_template)) },
+                    colors = OutlinedTextFieldDefaults.colors(
+                        focusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
+                        unfocusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
+                        disabledContainerColor = MaterialTheme.colorScheme.secondaryContainer,
+                    ),
+                )
+                Text(
+                    AnnotatedString.fromHtml(
+                        stringResource(R.string.notification_template_advice),
+                        TextLinkStyles(
+                            SpanStyle(
+                                MaterialTheme.colorScheme.primary,
+                                textDecoration = TextDecoration.Underline,
+                            ),
+                        ),
+                    ),
+                    style = MaterialTheme.typography.labelLarge,
+                    fontWeight = FontWeight.Normal,
+                )
+                val testTtsSentence = stringResource(R.string.test_tts_sentence)
+                Button(
+                    {
+                        coroutineScope.launch {
+                            TextToSpeech.initialize(context)
+
+                            if (TextToSpeech.available) {
+                                TextToSpeech.speak(testTtsSentence, 0)
+                            } else if (TextToSpeech.ready) {
+                                Toast.makeText(
+                                    context,
+                                    context.getString(R.string.tts_not_available),
+                                    Toast.LENGTH_SHORT,
+                                ).show()
+                                TextToSpeech.openInstallationScreen(context)
+                            } else {
+                                Toast.makeText(
+                                    context,
+                                    context.getString(R.string.tts_not_initialized),
+                                    Toast.LENGTH_SHORT,
+                                ).show()
+                            }
+                        }
+                    },
+                    Modifier.align(Alignment.CenterHorizontally),
+                    colors = ButtonDefaults.buttonColors(contentColor = MaterialTheme.colorScheme.onPrimaryContainer),
+                ) {
+                    Text(
+                        stringResource(R.string.test_tts),
+                        style = MaterialTheme.typography.labelLarge,
+                        fontWeight = FontWeight.Normal,
+                    )
                 }
             }
         }

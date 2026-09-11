@@ -46,6 +46,9 @@ sealed class Action {
     @Serializable
     data class REPLACE(val titleTemplate: String, val contentTemplate: String) : Action()
 
+    @Serializable
+    data class READ(val speechTemplate: String) : Action()
+
     @Composable
     fun verb(isGlance: Boolean = false, context: Context? = null): String {
         @Composable
@@ -64,13 +67,13 @@ sealed class Action {
             is DISMISS -> getString(R.string.dismiss_short)
             is TAP_NOTIFICATION -> getString(R.string.tap_notification_short)
             is TAP_BUTTON -> getString(R.string.tap_button_short, buttonRegex)
+            is MUTE -> getString(R.string.mute_short)
+            is ALERT -> getString(R.string.alert_short)
+
             is DELAY -> if (delayLength == null) getString(R.string.delay_short) else getString(
                 R.string.delay_by_short,
                 getPlural(R.plurals.minute, delayLength, delayLength),
             )
-
-            is MUTE -> getString(R.string.mute_short)
-            is ALERT -> getString(R.string.alert_short)
 
             is BATCH -> getString(
                 R.string.batch_short,
@@ -93,6 +96,8 @@ sealed class Action {
             )
 
             is REPLACE -> getString(R.string.replace_short, titleTemplate, contentTemplate)
+
+            is READ -> getString(R.string.read_short, speechTemplate)
         }
     }
 
@@ -110,6 +115,7 @@ sealed class Action {
             is DISTURB -> R.string.disturb_long
             is DISMISS_STALE -> R.string.dismiss_stale_long
             is REPLACE -> R.string.replace_long
+            is READ -> R.string.read_long
         },
     )
 
@@ -120,7 +126,7 @@ sealed class Action {
             listOf(
                 DISMISS, TAP_NOTIFICATION, TAP_BUTTON(""), BATCH(3),
                 DELAY(), DEBOUNCE(2), MUTE, ALERT, DISTURB(5), DISMISS_STALE(15),
-                REPLACE($$"${app} - ${title}", $$"${content}"),
+                REPLACE($$"${app} - ${title}", $$"${content}"), READ($$"${title}: ${content}"),
             )
         }
 
@@ -164,6 +170,10 @@ sealed class Action {
                     return REPLACE(it[1], it[2])
                 }
 
+                READ_REGEX.matchEntire(value)?.groupValues?.let {
+                    return READ(it[1])
+                }
+
                 Logger.e("Action.fromString", value)
                 throw IllegalArgumentException("Can't convert $value into an Action")
             }
@@ -177,5 +187,6 @@ sealed class Action {
         private val DISMISS_STALE_REGEX = Regex("^DISMISS_STALE\\(retentionLength=(\\d+)\\)$")
         private val REPLACE_REGEX =
             Regex("^REPLACE\\(titleTemplate=(.*?), contentTemplate=(.*)\\)$")
+        private val READ_REGEX = Regex("^READ\\(speechTemplate=(.*?)\\)$")
     }
 }

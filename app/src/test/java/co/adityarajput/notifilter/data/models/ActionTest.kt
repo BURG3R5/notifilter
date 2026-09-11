@@ -16,6 +16,7 @@ class ActionTest {
                 $$"${app} said ${title} at ${postTime}.",
                 $$"The description was \"${content}\".",
             ),
+            READ($$"${app} said ${title} and added ${content}"),
         )
 
         actions.forEach {
@@ -36,7 +37,7 @@ class ActionTest {
             "DISMISS()", "TAP_NOTIFICATION()", "MUTE()", "ALERT()",
 
             // INFO: These should be instances, not singletons
-            "TAP_BUTTON", "BATCH", "DEBOUNCE", "DISTURB", "DISMISS_STALE", "REPLACE",
+            "TAP_BUTTON", "BATCH", "DEBOUNCE", "DISTURB", "DISMISS_STALE", "REPLACE", "READ",
         ).forEach {
             assertFailsWith<IllegalArgumentException> {
                 Action.fromString(it)
@@ -55,6 +56,7 @@ class ActionTest {
             "REPLACE(contentTemplate=content)",
             "REPLACE(contentTemplate=content, titleTemplate=title)",
             "REPLACE(param=10, contentTemplate=content)",
+            "READ()", "READ(param=11)",
 
             // INFO: Non-integer parameters
             "BATCH(batchLength=a)", "DELAY(delayLength=e)", "DEBOUNCE(cooldownLength=b)",

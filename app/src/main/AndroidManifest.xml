@@ -19,6 +19,12 @@
         tools:node="remove" />
     <!-- endregion -->
 
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.TTS_SERVICE" />
+        </intent>
+    </queries>
+
     <application
         android:name=".NotiFilterApplication"
         android:allowBackup="true"
