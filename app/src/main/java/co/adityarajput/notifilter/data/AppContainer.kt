@@ -112,6 +112,13 @@ class AppContainer(private val context: Context) {
                         RegexTarget.EXPRESSION,
                         historyEnabled = false,
                     ),
+                    Filter(
+                        App("MinCal", "co.adityarajput.mincal"),
+                        ".+",
+                        Action.READ($$"Event Reminder: ${title}"),
+                        RegexTarget.TITLE,
+                        historyEnabled = false,
+                    ),
                 )
                 repository.upsert(
                     Notification(

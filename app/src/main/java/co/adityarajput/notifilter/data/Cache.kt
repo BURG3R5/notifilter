@@ -49,6 +49,9 @@ object Cache {
             )
         }.sortedBy { it.name }
 
+        if (_allPackages.isNullOrEmpty() || _visibleApps.isNullOrEmpty())
+            return
+
         _cachedAt = System.currentTimeMillis()
         Logger.d("Cache", "Updated cache")
     }
