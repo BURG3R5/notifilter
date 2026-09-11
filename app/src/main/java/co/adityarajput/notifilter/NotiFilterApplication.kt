@@ -2,6 +2,7 @@ package co.adityarajput.notifilter
 
 import android.app.Application
 import co.adityarajput.notifilter.data.AppContainer
+import co.adityarajput.notifilter.services.Preferences
 import co.adityarajput.notifilter.utils.setWidgetPreviews
 import co.adityarajput.notifilter.utils.subscribeWidgetsToFlows
 import kotlinx.coroutines.CoroutineScope
@@ -30,7 +31,7 @@ class NotiFilterApplication : Application() {
             mailSender {
                 mailTo = Constants.CRASH_REPORT_EMAIL
                 subject = "NotiFilter Crash Report"
-                additionalSharedPreferences = listOf(Constants.STATE, Constants.SETTINGS)
+                additionalSharedPreferences = listOf(Preferences.STATE, Preferences.SETTINGS)
             }
 
             dialog {
@@ -41,6 +42,8 @@ class NotiFilterApplication : Application() {
                 positiveButtonText = "Send email"
             }
         }
+
+        Preferences.init(this)
 
         container = AppContainer(this)
 

@@ -1,7 +1,6 @@
 package co.adityarajput.notifilter.views.screens
 
 import android.content.ClipData
-import android.content.Context.MODE_PRIVATE
 import android.os.Build
 import android.os.Handler
 import android.os.Looper
@@ -24,13 +23,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.core.content.edit
 import co.adityarajput.notifilter.BuildConfig
-import co.adityarajput.notifilter.Constants.RUN_IN_FOREGROUND
-import co.adityarajput.notifilter.Constants.SETTINGS
 import co.adityarajput.notifilter.R
 import co.adityarajput.notifilter.data.AppContainer
 import co.adityarajput.notifilter.services.NotificationListener
+import co.adityarajput.notifilter.services.Preferences
 import co.adityarajput.notifilter.utils.Logger
 import co.adityarajput.notifilter.utils.Permission
 import co.adityarajput.notifilter.utils.isGranted
@@ -53,13 +50,12 @@ fun SettingsScreen(
     val clipboard = LocalClipboard.current
     val appContainer = remember { AppContainer(context) }
     val handler = remember { Handler(Looper.getMainLooper()) }
-    val sharedPreferences = remember { context.getSharedPreferences(SETTINGS, MODE_PRIVATE) }
 
     var isInvincible by remember {
         mutableStateOf(context.isGranted(Permission.UNRESTRICTED_BACKGROUND_USAGE))
     }
     var isRunningInForeground by remember {
-        mutableStateOf(sharedPreferences.getBoolean(RUN_IN_FOREGROUND, false))
+        mutableStateOf(Preferences.runInForeground)
     }
 
     val watcher = object : Runnable {
@@ -149,8 +145,8 @@ fun SettingsScreen(
                                 if (!result) {
                                     Toast.makeText(context, toastText, Toast.LENGTH_SHORT).show()
                                 } else {
+                                    Preferences.runInForeground = it
                                     isRunningInForeground = it
-                                    sharedPreferences.edit { putBoolean(RUN_IN_FOREGROUND, it) }
                                 }
                             },
                         )

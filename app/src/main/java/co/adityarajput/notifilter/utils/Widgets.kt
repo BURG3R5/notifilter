@@ -1,17 +1,14 @@
 package co.adityarajput.notifilter.utils
 
 import android.content.Context
-import android.content.Context.MODE_PRIVATE
 import android.os.Build
-import androidx.core.content.edit
 import androidx.glance.appwidget.GlanceAppWidgetManager
 import androidx.glance.appwidget.GlanceAppWidgetManager.Companion.SET_WIDGET_PREVIEWS_RESULT_SUCCESS
 import androidx.glance.appwidget.updateAll
-import co.adityarajput.notifilter.Constants.STATE
-import co.adityarajput.notifilter.Constants.WIDGET_PREVIEW_SET_AT
 import co.adityarajput.notifilter.LogWidgetReceiver
 import co.adityarajput.notifilter.PanelWidgetReceiver
 import co.adityarajput.notifilter.data.AppContainer
+import co.adityarajput.notifilter.services.Preferences
 import co.adityarajput.notifilter.views.LogWidget
 import co.adityarajput.notifilter.views.PanelWidget
 import kotlinx.coroutines.*
@@ -21,14 +18,10 @@ import kotlinx.coroutines.sync.withLock
 
 suspend fun Context.setWidgetPreviews() {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) {
-        val sharedPreferences = getSharedPreferences(STATE, MODE_PRIVATE)
         val now = System.currentTimeMillis()
 
-        if (now - sharedPreferences.getLong(
-                WIDGET_PREVIEW_SET_AT,
-                0,
-            ) < 2 * 60 * 60 * 1000
-        ) return
+        if (now - Preferences.widgetPreviewSetAt < 2 * 60 * 60 * 1000)
+            return
 
         try {
             var result = GlanceAppWidgetManager(this@setWidgetPreviews)
@@ -47,7 +40,7 @@ suspend fun Context.setWidgetPreviews() {
                 return
             }
 
-            sharedPreferences.edit { putLong(WIDGET_PREVIEW_SET_AT, now) }
+            Preferences.widgetPreviewSetAt = now
         } catch (e: CancellationException) {
             throw e
         } catch (e: Exception) {

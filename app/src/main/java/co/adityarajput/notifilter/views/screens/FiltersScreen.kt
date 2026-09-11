@@ -1,6 +1,5 @@
 package co.adityarajput.notifilter.views.screens
 
-import android.content.Context.MODE_PRIVATE
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -23,14 +22,12 @@ import androidx.compose.ui.text.fromHtml
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
-import androidx.core.content.edit
 import androidx.lifecycle.viewmodel.compose.viewModel
-import co.adityarajput.notifilter.Constants.SETTINGS
-import co.adityarajput.notifilter.Constants.SHOW_MISSING_PERMISSIONS_DIALOG
 import co.adityarajput.notifilter.R
 import co.adityarajput.notifilter.data.models.Action
 import co.adityarajput.notifilter.data.models.Any
 import co.adityarajput.notifilter.services.NotificationListener
+import co.adityarajput.notifilter.services.Preferences
 import co.adityarajput.notifilter.utils.getFirst
 import co.adityarajput.notifilter.utils.getToggleString
 import co.adityarajput.notifilter.utils.isGranted
@@ -59,10 +56,7 @@ fun FiltersScreen(
         mutableStateOf(context.isGranted(permissionsRequired(state.value.filters ?: listOf())))
     }
     var showMissingPermissionsDialog by remember {
-        mutableStateOf(
-            context.getSharedPreferences(SETTINGS, MODE_PRIVATE)
-                .getBoolean(SHOW_MISSING_PERMISSIONS_DIALOG, true),
-        )
+        mutableStateOf(Preferences.showMissingPermissionsDialog)
     }
     var isAdjustingPriorities by remember { mutableStateOf(false) }
     var isListenerServiceInitialized by remember {
@@ -260,9 +254,8 @@ fun FiltersScreen(
                 hasPermissions.filter { !it.value }.keys,
                 { showMissingPermissionsDialog = false },
                 {
+                    Preferences.showMissingPermissionsDialog = false
                     showMissingPermissionsDialog = false
-                    context.getSharedPreferences(SETTINGS, MODE_PRIVATE)
-                        .edit { putBoolean(SHOW_MISSING_PERMISSIONS_DIALOG, false) }
                 },
             )
         }
